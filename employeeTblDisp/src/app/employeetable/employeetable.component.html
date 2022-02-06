@@ -1,0 +1,203 @@
+<div >
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn btn-outline-success btn-lg btn-block" data-toggle="modal"
+                data-target="#exampleModalAdd">Add Employee</button>
+        </div>
+        <div class="col-md-12">
+            <table class="table">
+                <thead class="table table-borderless">
+                    <tr>
+                        <th scope="col">FullName</th>
+                        <th scope="col">Designation</th>
+                        <th scope="col">Salary</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of addEmployeeValArr">
+                        <td>{{u.FullName}}</td>
+                        <td>{{u.Designation}}</td>
+                        <td>{{u.Salary}}</td>
+                        <td>{{u.Age}}</td>
+                        <td><button class="btn btn-outline-secondary btn-sm btn-block" (click)="onEdit(u)"
+                                data-toggle="modal" data-target="#exampleModal">Edit</button></td>
+                        <td><button class="btn btn-outline-danger btn-sm btn-block"
+                                (click)="onDelete(u)">Delete</button></td>
+                        <td>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Employee</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="EditEmpForm">
+                                                <div class="form-group">
+                                                    <label for="exampleInputFullName">Full Name</label>
+                                                    <input type="text" class="form-control" id="exampleInputFullName"
+                                                        aria-describedby="emailHelp" formControlName="fullNameedit"
+                                                        [ngClass]="{'is-invalid':fullNameedit?.touched && fullNameedit?.invalid,'is-valid':fullNameedit?.valid}">
+                                                    <span [ngClass]="{'invalid-feedback':fullNameedit?.invalid}">
+                                                        <span
+                                                            *ngIf="fullName?.touched&&fullName?.errors?.['required']">**FullName
+                                                            is
+                                                            Mandatory</span>
+                                                        <span
+                                                            *ngIf="fullName?.errors?.['pattern']">**Only
+                                                            Characters are
+                                                            Allowed</span>
+                                                    </span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputDesignation">Designation</label>
+                                                    <input type="text" class="form-control" id="exampleInputDesignation"
+                                                        formControlName="designationedit"
+                                                        [ngClass]="{'is-invalid':designationedit?.touched && designationedit?.invalid,'is-valid':designationedit?.valid}">
+                                                    <span [ngClass]="{'invalid-feedback':designationedit?.invalid}">
+                                                        <span
+                                                            *ngIf="designationedit?.touched && designationedit?.errors?.['required']">**Designation
+                                                            is
+                                                            Mandatory</span>
+                                                        <span
+                                                            *ngIf="designationedit?.errors?.['pattern']">**Only
+                                                            Characters are
+                                                            Allowed</span>
+                                                    </span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputSalary">Salary</label>
+                                                    <input type="text" class="form-control" id="exampleInputSalary"
+                                                        formControlName="salaryedit"
+                                                        [ngClass]="{'is-invalid':salaryedit?.touched && salaryedit?.invalid,'is-valid':salaryedit?.valid}">
+                                                    <span [ngClass]="{'invalid-feedback':salaryedit?.invalid}">
+                                                        <span
+                                                            *ngIf="salaryedit?.touched && salaryedit?.errors?.['required']">**Salary
+                                                            is Mandatory</span>
+                                                        <span
+                                                            *ngIf="salaryedit?.errors?.['pattern']">**Only
+                                                            Numbers are
+                                                            Allowed</span>
+                                                    </span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputAge">Age</label>
+                                                    <input type="text" class="form-control" id="exampleInputAge"
+                                                        formControlName="ageedit"
+                                                        [ngClass]="{'is-invalid':ageedit?.touched && ageedit?.invalid,'is-valid':ageedit?.valid}">
+                                                    <span [ngClass]="{'invalid-feedback':ageedit?.invalid}">
+                                                        <span
+                                                            *ngIf="ageedit?.touched && ageedit?.errors?.['required']">**Age
+                                                            is
+                                                            Mandatory</span>
+                                                        <span
+                                                            *ngIf="ageedit?.errors?.['pattern']">**Only
+                                                            Numbers are Allowed</span>
+                                                        <span
+                                                            *ngIf="ageedit?.errors?.['min'] || ageedit?.errors?.['max']">**Age
+                                                            Should
+                                                            be 1-120 </span>
+                                                    </span>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        (click)="onUpdateemp(u)">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- AddEmployee -->
+
+    <div class="modal fade" id="exampleModalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <form [formGroup]="addEmpForm" (ngSubmit)="onAddEmp()">
+                            <div class="form-group">
+                                <label for="exampleInputFullName">Full Name</label>
+                                <input type="text" class="form-control" id="exampleInputFullName"
+                                    aria-describedby="emailHelp" formControlName="fullName"
+                                    [ngClass]="{'is-invalid':fullName?.touched && fullName?.invalid,'is-valid':fullName?.valid}">
+                                <span [ngClass]="{'invalid-feedback':fullName?.invalid}">
+                                    <span *ngIf="fullName?.touched&&fullName?.errors?.['required']">**FullName is
+                                        Mandatory</span>
+                                    <span *ngIf="fullName?.errors?.['pattern']">**Only Characters are
+                                        Allowed</span>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputDesignation">Designation</label>
+                                <input type="text" class="form-control" id="exampleInputDesignation"
+                                    formControlName="designation"
+                                    [ngClass]="{'is-invalid':designation?.touched && designation?.invalid,'is-valid':designation?.valid}">
+                                <span [ngClass]="{'invalid-feedback':designation?.invalid}">
+                                    <span
+                                        *ngIf="designation?.touched && designation?.errors?.['required']">**Designation
+                                        is
+                                        Mandatory</span>
+                                    <span *ngIf="designation?.errors?.['pattern']">**Only
+                                        Characters
+                                        are
+                                        Allowed</span>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputSalary">Salary</label>
+                                <input type="text" class="form-control" id="exampleInputSalary" formControlName="salary"
+                                    [ngClass]="{'is-invalid':salary?.touched && salary?.invalid,'is-valid':salary?.valid}">
+                                <span [ngClass]="{'invalid-feedback':salary?.invalid}">
+                                    <span *ngIf="salary?.touched && salary?.errors?.['required']">**Salary is
+                                        Mandatory</span>
+                                    <span *ngIf="salary?.errors?.['pattern']">**Only Numbers are
+                                        Allowed</span>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputAge">Age</label>
+                                <input type="text" class="form-control" id="exampleInputAge" formControlName="age"
+                                    [ngClass]="{'is-invalid':age?.touched && age?.invalid,'is-valid':age?.valid}">
+                                <span [ngClass]="{'invalid-feedback':age?.invalid}">
+                                    <span *ngIf="age?.touched && age?.errors?.['required']">**Age is Mandatory</span>
+                                    <span *ngIf="age?.errors?.['pattern']">**Only Numbers are
+                                        Allowed</span>
+                                    <span
+                                        *ngIf="age?.touched && age?.errors?.['min'] || age?.touched && age?.errors?.['max']">**Age
+                                        Should
+                                        be 1-120 </span>
+                                </span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
